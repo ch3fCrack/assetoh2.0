@@ -1,0 +1,64 @@
+body {
+    font-family: 'Lovelo', sans-serif;
+    font-weight: 900;
+    text-align: center;
+    background-color: #121212;
+    color: white;
+    background-image: url('https://media1.tenor.com/m/NlXV9iYFiSIAAAAC/cry-animecry.gif'); /* Aggiungi il percorso della tua immagine qui */
+    background-size: 500px ; /* Assicura che l'immagine copra l'intera area */
+    background-position: center 450px; /* Centra l'immagine */
+    background-repeat: no-repeat; /* Evita che l'immagine si ripeta */
+    
+}
+header {
+    background: #121212;
+    padding: 10px;
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+#copyPaypal {
+    background-color: #2e03eb;
+    border: none;
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    font-family: 'Lovelo', sans-serif; /* Assicurati che i bottoni utilizzino il font */
+    font-weight: 900; 
+    border-radius: 8px;
+    transition: background 0.3s;
+    margin-top: 20px;
+}
+
+#copyPaypal:hover {
+    background-color: rgb(167, 8, 199); /* Cambia il colore di sfondo al passaggio del mouse */
+    color: rgb(255, 255, 255); /* Cambia il colore del testo al passaggio del mouse */
+}
+.download-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.download-container button {
+    background-color: #4aaf4e;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+}
+
+.download-container button:hover {
+    background-color: #45a049;
+}

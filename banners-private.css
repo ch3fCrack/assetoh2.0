@@ -1,0 +1,52 @@
+@import url('https://fonts.cdnfonts.com/css/lovelo');
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#error-message {
+    color: rgb(255, 0, 0); /* Rosso brillante per il testo */
+    display: none;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7), /* Bagliore rosso interno */
+                 2px 2px 4px rgb(124, 123, 123); /* Ombra nera più profonda */
+    font-family: 'Lovelo', sans-serif;
+    font-weight: 900;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+.asset {
+    margin: 10px;
+}
+.asset img {
+    width: 600px;
+    height: auto;
+    border: 2px solid #2e03eb; /* Aggiunta della cornice */
+    border-radius: 5px; /* Opzionale: arrotondamento degli angoli */
+}
+button {
+    background-color: #2e03eb;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+}
+button:hover {
+    background-color: rgb(167, 8, 199);
+    transform: translateY(-2px);
+}
+#downloadAll {
+    
+    background-color: #2e03eb;
+    font-family: 'Lovelo', sans-serif;
+    font-weight: 900;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}

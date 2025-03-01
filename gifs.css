@@ -1,0 +1,29 @@
+@import url('https://fonts.cdnfonts.com/css/lovelo');
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.asset {
+    margin: 10px;
+}
+.asset img {
+    width: 200px;
+    height: auto;
+    border: 2px solid #2e03eb; /* Aggiunta della cornice */
+    border-radius: 5px;
+    background-color: #55459b; /* Opzionale: arrotondamento degli angoli */
+}
+button {
+    background-color: #2e03eb;
+    font-family: 'Lovelo', sans-serif;
+    font-weight: 900;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+}
+button:hover {
+    background-color: rgb(167, 8, 199);
+    transform: translateY(-2px);
+}
