@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner OBS</title>
+    <link href="https://fonts.cdnfonts.com/css/lovelo" rel="stylesheet">
+    <style>
+        body {
+            margin-top: 50px;
+            margin-left: 50px;
+            padding: 0;
+            background-color: transparent !important;
+            overflow: hidden;
+        }
+
+        .container {
+        width: 800px;
+        height: 200px;
+        border-radius: 100px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        color: #ffffff;
+        /* Rimuovi o commenta questa riga */
+        /* background-color: rgba(36, 36, 36, 0.315); */
+        /* Rimuovi o commenta questa riga */
+        /* backdrop-filter: blur(5px); */
+        /* Modifica il box-shadow per renderlo più sottile o rimuovilo */
+        box-shadow: none;
+        overflow: hidden;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Aggiungi questo per gestire lo sfondo solo quando necessario */
+    .container.with-background {
+        background-color: rgba(36, 36, 36, 0.315);
+        backdrop-filter: blur(5px);
+    }
+
+        .container.short {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        
+
+        .fixed-gif {
+            position: relative;
+            border-radius: 100px;
+            margin-left: 2px;
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+            pointer-events: none;
+            
+        }
+
+        .timer {
+            font-family: 'Lovelo', sans-serif;
+            font-weight: 900;
+            font-size: 50px;
+            margin-left: 50px;
+            z-index: 2;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgb(0, 0, 0);
+        }
+        .signature {
+        position: absolute;
+        bottom: 5px;
+        right: 70px;
+        font-family: 'Lovelo', sans-serif;
+        font-weight: 900;
+        font-size: 12px;
+        color: rgb(255, 255, 255);
+        text-shadow: 
+        0 0 2px rgba(0, 0, 0, 0.8),
+        0 0 4px rgba(255, 0, 0, 0.5),
+        1px 1px 2px rgba(0, 0, 0, 0.9);
+        z-index: 12;
+        letter-spacing: 0.5px;
+        transition: opacity 0.5s ease;
+        }
+        .message {
+            font-family: 'Lovelo', sans-serif;
+            font-weight: 900;
+            margin-left: 50px;
+            font-size: 30px;
+            text-align: center;
+            z-index: 2;
+            color: #f0f0f0;
+            text-shadow: 0 2px 4px rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="timerContainer">
+        <img src="lunar.gif" alt="GIF" class="fixed-gif">
+        <div>
+            <div class="timer" id="timer"></div>
+            <div class="message" id="message"></div>
+            <div class="signature">Created by Ch3f_nerd_art</div>
+        </div>
+    </div>
+
+    <script>
+
+        var CONFIG = {
+            eventStartMinute: 52,
+            eventStartSecond: 25
+        };
+
+        let timerMinutes = 45;
+        let secondsRemaining = timerMinutes * 60;
+        let phase = "main";
+        let timerInterval;
+
+        const timerElement = document.getElementById('timer');
+        const messageElement = document.getElementById('message');
+        const timerContainer = document.getElementById('timerContainer');
+        function rotateSignatures() {
+        const signatures = [
+            "Created by Ch3f_nerd_art",
+            "Ch3f_nerd_art が制作",
+            "由 Ch3f_nerd_art 创作"
+        ];
+        const signatureElement = document.querySelector('.signature');
+        if (!signatureElement) return;
+
+        let currentIndex = 0;
+        setInterval(() => {
+            signatureElement.style.opacity = '0';
+            setTimeout(() => {
+                signatureElement.textContent = signatures[currentIndex];
+                signatureElement.style.opacity = '1';
+                currentIndex = (currentIndex + 1) % signatures.length;
+            }, 500);
+        }, 30000); // Cambiato a 30000ms (30 secondi)
+        }
+        function saveState() {
+            const state = {
+                phase,
+                secondsRemaining,
+                timerMinutes,
+                referenceTime: getReferenceTime(),
+                eventStartMinute: CONFIG.eventStartMinute,
+                eventStartSecond: CONFIG.eventStartSecond
+            };
+            sessionStorage.setItem('timerState', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const savedState = sessionStorage.getItem('timerState');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                const currentTime = getReferenceTime();
+                const elapsedMinutes = Math.floor((currentTime - state.referenceTime) / (1000 * 60));
+                
+                phase = state.phase;
+                secondsRemaining = Math.max(0, state.secondsRemaining - (elapsedMinutes * 60));
+                timerMinutes = state.timerMinutes;
+                CONFIG.eventStartMinute = state.eventStartMinute;
+                CONFIG.eventStartSecond = state.eventStartSecond;
+                return true;
+            }
+            return false;
+        }
+
+        // Aggiungi questa funzione dopo loadState()
+        function loadAppearanceFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Carica le impostazioni di aspetto se presenti nell'URL
+            if (params.has('appearance')) {
+                try {
+                    const appearance = JSON.parse(decodeURIComponent(params.get('appearance')));
+                    const timer = document.getElementById('timer');
+                    const message = document.getElementById('message');
+                    
+                    // Applica colori e ombre al timer
+                    timer.style.color = appearance.timerColor || '#ffffff';
+                    timer.style.textShadow = `${appearance.shadowSize || '0'}px ${appearance.shadowSize || '0'}px ${appearance.shadowBlur || '4'}px ${appearance.shadowColor || '#000000'}`;
+                    
+                    // Applica colori e ombre al messaggio
+                    message.style.color = appearance.messageColor || '#f0f0f0';
+                    message.style.textShadow = `${appearance.shadowSize || '0'}px ${appearance.shadowSize || '0'}px ${appearance.shadowBlur || '4'}px ${appearance.shadowColor || '#000000'}`;
+                } catch (e) {
+                    console.error('Error loading appearance settings:', e);
+                }
+            }
+        }
+
+        // Modifica la funzione initializeTimer()
+        function initializeTimer() {
+            const params = new URLSearchParams(window.location.search);
+            
+            // Ottieni il timestamp dal server per sincronizzazione precisa
+            const now = new Date();
+            const currentSecond = now.getSeconds();
+            const currentMinute = now.getMinutes();
+            
+            // Calcola il tempo esatto
+            const currentTimeInSeconds = (currentMinute * 60) + currentSecond;
+            const targetTimeInSeconds = (CONFIG.eventStartMinute * 60) + CONFIG.eventStartSecond;
+            
+            // Calcola la fase e il tempo rimanente con precisione al secondo
+            if (currentTimeInSeconds < targetTimeInSeconds) {
+                phase = "main";
+                secondsRemaining = targetTimeInSeconds - currentTimeInSeconds;
+            } else {
+                phase = "short";
+                const timePassedSinceTarget = currentTimeInSeconds - targetTimeInSeconds;
+                const shortTimerSec = 15 * 60;
+                secondsRemaining = shortTimerSec - (timePassedSinceTarget % shortTimerSec);
+            }
+
+            // Carica le impostazioni dei background e del testo
+            const bg1 = params.get('bg1');
+            const bg2 = params.get('bg2');
+            const text1 = params.get('text1');
+            const text2 = params.get('text2');
+
+            if (bg1) sessionStorage.setItem('bg1', bg1);
+            if (bg2) sessionStorage.setItem('bg2', bg2);
+            if (text1) sessionStorage.setItem('text1', text1);
+            if (text2) sessionStorage.setItem('text2', text2);
+            
+            // Aggiorna immediatamente
+            updateMessage();
+            updateTimerDisplay();
+            loadAppearanceFromUrl();
+            
+            // Avvia il timer con intervallo preciso
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (secondsRemaining > 0) {
+                    secondsRemaining--;
+                } else {
+                    switchPhase();
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            let minutes = Math.floor(secondsRemaining / 60);
+            let seconds = secondsRemaining % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        // Modifica la funzione updateMessage()
+        function updateMessage() {
+            const params = new URLSearchParams(window.location.search);
+            if (phase === "main") {
+                const text1 = params.get('text1') || sessionStorage.getItem('text1') || "Timer Text 45 min";
+                messageElement.textContent = decodeURIComponent(text1);
+                timerContainer.className = "container main";
+                const bg1 = params.get('bg1') || sessionStorage.getItem('bg1');
+                if (bg1) {
+                    timerContainer.style.backgroundImage = `url('${bg1}')`;
+                }
+            } else {
+                const text2 = params.get('text2') || sessionStorage.getItem('text2') || "Timer Text 15 min";
+                messageElement.textContent = decodeURIComponent(text2);
+                timerContainer.className = "container short";
+                const bg2 = params.get('bg2') || sessionStorage.getItem('bg2');
+                if (bg2) {
+                    timerContainer.style.backgroundImage = `url('${bg2}')`;
+                }
+            }
+            
+            loadAppearanceFromUrl();
+        }
+
+        function switchPhase() {
+            if (phase === "main") {
+                phase = "short";
+                secondsRemaining = 15 * 60; // 15 minuti in secondi
+            } else {
+                phase = "short";
+                secondsRemaining = 15 * 60; // Ricomincia il ciclo di 15 minuti
+            }
+            updateMessage();
+        }
+
+        // Modifica la funzione timerTick per una migliore precisione
+        function timerTick() {
+            const now = new Date();
+            if (now.getMilliseconds() < 100) { // Sincronizza solo all'inizio di ogni secondo
+                if (secondsRemaining > 0) {
+                    secondsRemaining--;
+                } else {
+                    switchPhase();
+                }
+                updateTimerDisplay();
+            }
+        }
+
+        // Aggiungi queste funzioni dopo la dichiarazione delle variabili globali
+        function getReferenceTime() {
+            const now = new Date();
+            now.setSeconds(0);
+            now.setMilliseconds(0);
+            return now.getTime();
+        }
+
+        initializeTimer();
+        rotateSignatures();
+        setInterval(timerTick, 1000);
+    </script>
+</body>
+</html>

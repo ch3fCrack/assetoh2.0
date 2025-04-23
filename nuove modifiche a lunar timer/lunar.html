@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="timerTitle">Customizable Timer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="timer.css">
+    <link href="https://fonts.cdnfonts.com/css/lovelo" rel="stylesheet">
+    <link rel="icon" href="images/icon.png" type="image/x-icon">
+    
+    <!-- Add translation system scripts -->
+    <script src="translations.js"></script>
+    <script src="loadCommon.js"></script>
+    <script src="languageManager.js"></script>
+    
+    <!-- Existing scripts -->
+    <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"/></noscript>
+</head>
+<body class="banners-page">
+    <header>
+        <h1 data-translate="timerTitle">Customizable Timer</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" data-translate="home">Home</a></li>
+                <li><a href="gifs.html" data-translate="gifs">GIF's</a></li>
+                <li><a href="asian-gifs.html" data-translate="asianGifs">Asian GIF's</a></li>
+                <li><a href="banners.html" data-translate="banners">Banners</a></li>
+                <li><a href="asian-banners.html" data-translate="asianBanners">Asian Banners</a></li>
+                <li><a href="donate.html" data-translate="donate">Donate</a></li>
+                <li><a href="private-banners.html" data-translate="creatorGroup">Creator Group Missions Banners</a></li>
+                <li><a href="https://www.twitch.tv/ch3f_nerd_art" target="_blank" data-translate="twitchChannel">My Twitch Channel</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="inputs">
+        <label data-translate="minutes">Minutes:</label>
+        <input type="number" id="minuteInput" min="0" max="59" value="52">
+        <label data-translate="seconds">Seconds:</label>
+        <input type="number" id="secondInput" min="0" max="59" value="25">
+        <button id="setTimeBtn" data-translate="setTime">Set Time</button>
+        <button id="defaultBtn" data-translate="resetDefault">Reset Default</button>
+    </div>
+
+    <div class="settings">
+        <p data-translate="timerSetupNote" class="important-note">
+            <strong>IMPORTANT:</strong> First set your lunar phase start time above. Then you can customize your banners below. If you don't set the time first, your customizations will be reset.
+        </p>
+        <h2 data-translate="customizeBanners">Customize Banners</h2>
+        <p data-translate="bannerNote" class="important-note">
+            <strong>NOTE:</strong> The images can be GIFs or static but must be in 800x200 format.
+            <strong>P.S.:</strong> It's in beta, so if there are any issues or errors, contact me on Discord (ch3ftv).
+        </p>
+        
+        <div class="banner-inputs">
+            <div>
+                <label data-translate="banner1UrlLabel">Banner 1 URL image (timer 45 min):</label>
+                <input type="text" id="bgBanner1" data-translate="enterImageUrl" placeholder="Enter image URL">
+            </div>
+            <div>
+                <label data-translate="banner1TextLabel">Banner 1 Text (timer 45 min):</label>
+                <input type="text" id="textBanner1" data-translate="enterText" placeholder="Enter text">
+            </div>
+            <div>
+                <label data-translate="banner2UrlLabel">Banner 2 URL image (15 min):</label>
+                <input type="text" id="bgBanner2" data-translate="enterImageUrl" placeholder="Enter image URL">
+            </div>
+            <div>
+                <label data-translate="banner2TextLabel">Banner 2 Text (timer 15 min):</label>
+                <input type="text" id="textBanner2" data-translate="enterText" placeholder="Enter text">
+            </div>
+            <button id="applyCustomizationsBtn" data-translate="applyCustomizations">Apply Customizations</button>
+        </div>
+
+        <h2 data-translate="customizeAppearance">Customize Text Appearance</h2>
+        <div class="appearance-inputs">
+            <div class="color-inputs">
+                <div>
+                    <label data-translate="timerColorLabel">Timer Color:</label>
+                    <input type="color" id="timerColor" value="#ffffff">
+                </div>
+                <div>
+                    <label data-translate="messageColorLabel">Message Color:</label>
+                    <input type="color" id="messageColor" value="#ffffff">
+                </div>
+            </div>
+            
+            <div class="shadow-inputs">
+                <div>
+                    <label data-translate="shadowColorLabel">Shadow Color:</label>
+                    <input type="color" id="shadowColor" value="#000000">
+                </div>
+                <div>
+                    <label data-translate="shadowSizeLabel">Shadow Size (px):</label>
+                    <input type="number" id="shadowSize" min="0" max="20" value="2">
+                </div>
+                <div>
+                    <label data-translate="shadowBlurLabel">Shadow Blur (px):</label>
+                    <input type="number" id="shadowBlur" min="0" max="20" value="4">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container main" id="timerContainer">
+        <img src="lunar.gif" alt="Timer Background" class="fixed-gif">
+        <div>
+            <div class="timer" id="timer">45:00</div>
+            <div class="message" id="message">Example text</div>
+        </div>
+        <div class="signature" data-translate="signature">Created by Ch3f_nerd_art</div>
+    </div>
+
+    <button class="obs-btn" id="copyToOBSBtn" data-translate="useInOBS">Use in OBS</button>
+    <script src="timer.js"></script>
+</body>
+</html>
